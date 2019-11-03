@@ -1,3 +1,4 @@
+import math
 import pickle
 from tkinter import *
 from tkcalendar import Calendar, DateEntry
@@ -137,7 +138,7 @@ def register():
     # Label(register_screen, text="").pack()
     # Button(register_screen, text="Register", width=15, height=2, bg="black", fg="white", command=register_user).place(
     #     x=178, y=350)
-    Button(register_screen, text="Register", width=15, height=2, bg="black", fg="white", command=check).place(
+    bb = Button(register_screen, text="Register", width=15, height=2, bg="black", fg="white", command=check).place(
         x=178, y=350)
 
 
@@ -158,102 +159,134 @@ def check():
         F_Name_info_empty = Label(register_screen, text="First Name cannot be empty.", fg="red", font=("calibri", 11))
         F_Name_info_empty.place(x=312, y=40)
         flag = 1
-        main_screen.after(2000, F_Name_info_empty.destroy())
-    # if L_Name_info == "":
-    #     L_Name_info_empty = Label(register_screen, text="First Name cannot be empty.", fg="red", font=("calibri", 11))
-    #     L_Name_info_empty.place(x=312, y=70)
-    #     flag = 1
-    #     register_screen.after(5000, L_Name_info_empty.destroy())
-    # if username_info == "":
-    #     username_info_empty = Label(register_screen, text="Username cannot be empty.", fg="red", font=("calibri", 11))
-    #     username_info_empty.place(x=312, y=100)
-    #     flag = 1
-    #     register_screen.after(5000, username_info_empty.destroy())
-    # if password_info == "":
-    #     password_info_empty = Label(register_screen, text="Password cannot be empty.", fg="red", font=("calibri", 11))
-    #     password_info_empty.place(x=312, y=130)
-    #     flag = 1
-    #     register_screen.after(5000, password_info_empty.destroy())
-    # # if DOB_info == "":
-    # #     DOB_info_empty = Label(register_screen, text="DOB cannot be empty.", fg="red", font=("calibri", 11))
-    # #     DOB_info_empty.place(x=312, y=160)
-    # #     flag = 1
-    # #     register_screen.after(5000, DOB_info_empty.destroy())
-    # if Email_ID_info == "":
-    #     Email_ID_info_empty = Label(register_screen, text="E-Mail cannot be empty.", fg="red", font=("calibri", 11))
-    #     Email_ID_info_empty.place(x=312, y=190)
-    #     flag = 1
-    #     register_screen.after(5000, Email_ID_info_empty.destroy())
-    # if ph_no_info == "":
-    #     ph_no_info_empty = Label(register_screen, text="Ph.No cannot be empty.", fg="red", font=("calibri", 11))
-    #     ph_no_info_empty.place(x=312, y=190)
-    #     flag = 1
-    #     register_screen.after(5000, ph_no_info_empty.destroy())
-    # if percent_10_info == "":
-    #     percent_10_info_empty = Label(register_screen, text="Cannot be empty.", fg="red", font=("calibri", 11))
-    #     percent_10_info_empty.place(x=312, y=220)
-    #     flag = 1
-    #     register_screen.after(5000, percent_10_info_empty.destroy())
-    # if percent_12_info == "":
-    #     percent_12_info_empty = Label(register_screen, text="Cannot be empty.", fg="red", font=("calibri", 11))
-    #     percent_12_info_empty.place(x=312, y=250)
-    #     flag = 1
-    #     register_screen.after(5000, percent_12_info_empty.destroy())
-    # if flag == 0:
-    #     try:
-    #         i = int(ph_no_info)
-    #     except:
-    #         ph_no_info_wrong = Label(register_screen, text="Enter only Digits", fg="red", font=("calibri", 11))
-    #         ph_no_info_wrong.place(x=312, y=190)
-    #         register_screen.after(5000, ph_no_info_wrong.destroy())
-    #         flag1 = 1
-    #     try:
-    #         ii = int(percent_10_info)
-    #     except:
-    #         percent_10_info_wrong = Label(register_screen, text="Enter only Digits", fg="red", font=("calibri", 11))
-    #         percent_10_info_wrong.place(x=312, y=220)
-    #         register_screen.after(5000, percent_10_info_wrong.destroy())
-    #         flag1 = 1
-    #     try:
-    #         i = int(percent_12_info)
-    #     except:
-    #         percent_12_info_wrong = Label(register_screen, text="Enter only Digits", fg="red", font=("calibri", 11))
-    #         percent_12_info_wrong.place(x=312, y=250)
-    #         register_screen.after(5000, percent_12_info_wrong.destroy())
-    #         flag1 = 1
-    #     if flag1 == 0 and flag == 0:
-    #         register_user()
+        register_screen.after(5000, F_Name_info_empty.destroy)
+    if L_Name_info == "":
+        L_Name_info_empty = Label(register_screen, text="First Name cannot be empty.", fg="red", font=("calibri", 11))
+        L_Name_info_empty.place(x=312, y=70)
+        flag = 1
+        register_screen.after(5000, L_Name_info_empty.destroy)
+    if username_info == "":
+        username_info_empty = Label(register_screen, text="Username cannot be empty.", fg="red", font=("calibri", 11))
+        username_info_empty.place(x=312, y=100)
+        flag = 1
+        register_screen.after(5000, username_info_empty.destroy)
+    if password_info == "":
+        password_info_empty = Label(register_screen, text="Password cannot be empty.", fg="red", font=("calibri", 11))
+        password_info_empty.place(x=312, y=130)
+        flag = 1
+        register_screen.after(5000, password_info_empty.destroy)
+    if DOB_info == "":
+        DOB_info_empty = Label(register_screen, text="DOB cannot be empty.", fg="red", font=("calibri", 11))
+        DOB_info_empty.place(x=312, y=160)
+        flag = 1
+        register_screen.after(5000, DOB_info_empty.destroy)
+    if Email_ID_info == "":
+        Email_ID_info_empty = Label(register_screen, text="E-Mail cannot be empty.", fg="red", font=("calibri", 11))
+        Email_ID_info_empty.place(x=312, y=220)
+        flag = 1
+        register_screen.after(5000, Email_ID_info_empty.destroy)
+    if ph_no_info == "":
+        ph_no_info_empty = Label(register_screen, text="Ph.No cannot be empty.", fg="red", font=("calibri", 11))
+        ph_no_info_empty.place(x=312, y=250)
+        flag = 1
+        register_screen.after(5000, ph_no_info_empty.destroy)
+    if percent_10_info == "":
+        percent_10_info_empty = Label(register_screen, text="Cannot be empty.", fg="red", font=("calibri", 11))
+        percent_10_info_empty.place(x=312, y=280)
+        flag = 1
+        register_screen.after(5000, percent_10_info_empty.destroy)
+    if percent_12_info == "":
+        percent_12_info_empty = Label(register_screen, text="Cannot be empty.", fg="red", font=("calibri", 11))
+        percent_12_info_empty.place(x=312, y=310)
+        flag = 1
+        register_screen.after(5000, percent_12_info_empty.destroy)
+    if flag == 0:
+        if "@" not in Email_ID_info and ".com" not in Email_ID_info:
+            Email_ID_info_emptyy = Label(register_screen, text="Invalid Format.", fg="red", font=("calibri", 11))
+            Email_ID_info_emptyy.place(x=312, y=220)
+            register_screen.after(5000, Email_ID_info_emptyy.destroy)
+            flag1 = 1
+        try:
+            i = int(ph_no_info)
+            digits = int(math.log10(i)) + 1
+            if digits != 10 and digits != 12:
+                flag1 = 1
+                ph_no_info_wrong = Label(register_screen, text="Invalid Format.", fg="red", font=("calibri", 11))
+                ph_no_info_wrong.place(x=312, y=250)
+                register_screen.after(5000, ph_no_info_wrong.destroy)
+        except Exception as e:
+            print(e)
+            flag1 = 1
+            ph_no_info_wrong = Label(register_screen, text="Enter only Digits", fg="red", font=("calibri", 11))
+            ph_no_info_wrong.place(x=312, y=250)
+            register_screen.after(5000, ph_no_info_wrong.destroy)
+        try:
+            ii = int(percent_10_info)
+            digits = int(math.log10(ii)) + 1
+            if digits != 1 and digits != 2 and digits != 3:
+                flag1 = 1
+                percent_10_info_wrong = Label(register_screen, text="Wrong Percentage.", fg="red", font=("calibri", 11))
+                percent_10_info_wrong.place(x=312, y=280)
+                register_screen.after(5000, percent_10_info_wrong.destroy)
+        except:
+            flag1 = 1
+            percent_10_info_wrong = Label(register_screen, text="Enter only Digits.", fg="red", font=("calibri", 11))
+            percent_10_info_wrong.place(x=312, y=280)
+            register_screen.after(5000, percent_10_info_wrong.destroy)
+        try:
+            iii = int(percent_12_info)
+            digits = int(math.log10(iii)) + 1
+            if digits != 1 and digits != 2 and digits != 3:
+                flag1 = 1
+                percent_12_info_wrong = Label(register_screen, text="Wrong Percentage.", fg="red", font=("calibri", 11))
+                percent_12_info_wrong.place(x=312, y=310)
+                register_screen.after(5000, percent_12_info_wrong.destroy)
+        except:
+            flag1 = 1
+            percent_12_info_wrong = Label(register_screen, text="Enter only Digits", fg="red", font=("calibri", 11))
+            percent_12_info_wrong.place(x=312, y=310)
+            register_screen.after(5000, percent_12_info_wrong.destroy)
+    if flag1 == 0 and flag == 0:
+        register_user()
 
 
 # Designing window for login
 
 
 def register_user():
+    F_Name_info = F_Name.get()
+    L_Name_info = L_Name.get()
     username_info = username.get()
     password_info = password.get()
+    DOB_info = DOB.get()
+    Gender_info = Gender.get()
+    Email_ID_info = Email_ID.get()
+    ph_no_info = ph_no.get()
+    percent_10_info = percent_10.get()
+    percent_12_info = percent_12.get()
     if str(username_info) in users.keys():
-        username_entry.delete(0, END)
-        password_entry.delete(0, END)
+        # username_entry.delete(0, END)
+        # password_entry.delete(0, END)
         userr_already_register = Label(register_screen, text="User Already Registered.", fg="black",
                                        font=("calibri", 13))
         userr_already_register.place(x=178, y=400)
         register_screen.after(2000, userr_already_register.destroy)
     else:
         users[str(username_info)] = {}
-        users[str(username_info)]["F_Name"] = ""
-        users[str(username_info)]["L_Name"] = ""
-        users[str(username_info)]["DOB"] = ""
-        users[str(username_info)]["Gender"] = ""
-        users[str(username_info)]["Email_ID"] = ""
-        users[str(username_info)]["ph_no"] = ""
-        users[str(username_info)]["10_percent"] = ""
-        users[str(username_info)]["12_percent"] = ""
+        users[str(username_info)]["F_Name"] = str(F_Name_info)
+        users[str(username_info)]["L_Name"] = str(L_Name_info)
+        users[str(username_info)]["DOB"] = str(DOB_info)
+        users[str(username_info)]["Gender"] = str(Gender_info)
+        users[str(username_info)]["Email_ID"] = str(Email_ID_info)
+        users[str(username_info)]["ph_no"] = str(ph_no_info)
+        users[str(username_info)]["10_percent"] = str(percent_10_info)
+        users[str(username_info)]["12_percent"] = str(percent_12_info)
         users[str(username_info)]["Password"] = str(password_info)
-        username_entry.delete(0, END)
-        password_entry.delete(0, END)
-        aaa = Label(register_screen, text="Registration Success", fg="black", font=("calibri", 13))
+        # username_entry.delete(0, END)
+        # password_entry.delete(0, END)
+        aaa = Label(register_screen, text="Registration Successful", fg="black", font=("calibri", 13))
         aaa.place(x=178, y=400)
-        register_screen.after(2000, aaa.destroy)
+        register_screen.after(5000, aaa.destroy)
         f = open("database", "wb")
         pickle.dump(users, f)
         f.close()
