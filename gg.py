@@ -1,5 +1,6 @@
 import pickle
 from tkinter import *
+from tkcalendar import Calendar, DateEntry
 import os
 
 # Designing window for registration
@@ -12,11 +13,33 @@ except FileNotFoundError:
     users = {}
 
 
+def example2():
+    DOB_entry.delete(0, END)
+    DOB_entry.insert(0, date_fetch)
+    return
+
+
+def example1():
+    def print_sel():
+        global date_fetch
+        date_fetch = cal.selection_get()
+        top.destroy()
+        example2()
+
+    top = Toplevel(main_screen)
+
+    cal = Calendar(top,
+                   font="Arial 14", selectmode='day',
+                   cursor="hand1", year=2018, month=2, day=5)
+    cal.pack(fill="both", expand=True)
+    c_b = Button(top, text="ok", command=print_sel).pack()
+
+
 def register():
     global register_screen
     register_screen = Toplevel(main_screen)
     register_screen.title("Register")
-    register_screen.geometry("400x400")
+    register_screen.geometry("500x450")
 
     global username
     global password
@@ -58,6 +81,7 @@ def register():
     F_Name_lable.place(x=95, y=40)
     F_Name_entry = Entry(register_screen, textvariable=F_Name)
     F_Name_entry.place(x=180, y=40)
+    F_Name_entry.focus_set()
     L_Name_lable = Label(register_screen, text="Last Name : ")
     L_Name_lable.place(x=96, y=70)
     L_Name_entry = Entry(register_screen, textvariable=L_Name)
@@ -74,10 +98,17 @@ def register():
     DOB_label.place(x=86, y=160)
     DOB_entry = Entry(register_screen, textvariable=DOB)
     DOB_entry.place(x=180, y=160)
+    DOB_button = Button(register_screen, text="Select Date", bg="black", fg="white",
+                        command=example1)
+    DOB_button.place(x=312, y=160)
     Gender_label = Label(register_screen, text="Gender :")
     Gender_label.place(x=114, y=190)
-    Radiobutton(register_screen, text="Male", variable=Gender, value="Male").place(x=180, y=190)
-    Radiobutton(register_screen, text="Female", variable=Gender, value="Female").place(x=250, y=190)
+    r1 = Radiobutton(register_screen, text="Male", variable=Gender, value="Male")
+    r1.place(x=180, y=190)
+    r1.select()
+    r2 = Radiobutton(register_screen, text="Female", variable=Gender, value="Female")
+    r2.place(x=250, y=190)
+    r2.deselect()
     Email_ID_label = Label(register_screen, text="Email ID :")
     Email_ID_label.place(x=109, y=220)
     Email_ID_entry = Entry(register_screen, textvariable=Email_ID)
@@ -110,8 +141,141 @@ def register():
         x=178, y=350)
 
 
+def check():
+    flag = 0
+    flag1 = 0
+    F_Name_info = F_Name.get()
+    L_Name_info = L_Name.get()
+    username_info = username.get()
+    password_info = password.get()
+    DOB_info = DOB.get()
+    Gender_info = Gender.get()
+    Email_ID_info = Email_ID.get()
+    ph_no_info = ph_no.get()
+    percent_10_info = percent_10.get()
+    percent_12_info = percent_12.get()
+    if F_Name_info == "":
+        F_Name_info_empty = Label(register_screen, text="First Name cannot be empty.", fg="red", font=("calibri", 11))
+        F_Name_info_empty.place(x=312, y=40)
+        flag = 1
+        main_screen.after(2000, F_Name_info_empty.destroy())
+    # if L_Name_info == "":
+    #     L_Name_info_empty = Label(register_screen, text="First Name cannot be empty.", fg="red", font=("calibri", 11))
+    #     L_Name_info_empty.place(x=312, y=70)
+    #     flag = 1
+    #     register_screen.after(5000, L_Name_info_empty.destroy())
+    # if username_info == "":
+    #     username_info_empty = Label(register_screen, text="Username cannot be empty.", fg="red", font=("calibri", 11))
+    #     username_info_empty.place(x=312, y=100)
+    #     flag = 1
+    #     register_screen.after(5000, username_info_empty.destroy())
+    # if password_info == "":
+    #     password_info_empty = Label(register_screen, text="Password cannot be empty.", fg="red", font=("calibri", 11))
+    #     password_info_empty.place(x=312, y=130)
+    #     flag = 1
+    #     register_screen.after(5000, password_info_empty.destroy())
+    # # if DOB_info == "":
+    # #     DOB_info_empty = Label(register_screen, text="DOB cannot be empty.", fg="red", font=("calibri", 11))
+    # #     DOB_info_empty.place(x=312, y=160)
+    # #     flag = 1
+    # #     register_screen.after(5000, DOB_info_empty.destroy())
+    # if Email_ID_info == "":
+    #     Email_ID_info_empty = Label(register_screen, text="E-Mail cannot be empty.", fg="red", font=("calibri", 11))
+    #     Email_ID_info_empty.place(x=312, y=190)
+    #     flag = 1
+    #     register_screen.after(5000, Email_ID_info_empty.destroy())
+    # if ph_no_info == "":
+    #     ph_no_info_empty = Label(register_screen, text="Ph.No cannot be empty.", fg="red", font=("calibri", 11))
+    #     ph_no_info_empty.place(x=312, y=190)
+    #     flag = 1
+    #     register_screen.after(5000, ph_no_info_empty.destroy())
+    # if percent_10_info == "":
+    #     percent_10_info_empty = Label(register_screen, text="Cannot be empty.", fg="red", font=("calibri", 11))
+    #     percent_10_info_empty.place(x=312, y=220)
+    #     flag = 1
+    #     register_screen.after(5000, percent_10_info_empty.destroy())
+    # if percent_12_info == "":
+    #     percent_12_info_empty = Label(register_screen, text="Cannot be empty.", fg="red", font=("calibri", 11))
+    #     percent_12_info_empty.place(x=312, y=250)
+    #     flag = 1
+    #     register_screen.after(5000, percent_12_info_empty.destroy())
+    # if flag == 0:
+    #     try:
+    #         i = int(ph_no_info)
+    #     except:
+    #         ph_no_info_wrong = Label(register_screen, text="Enter only Digits", fg="red", font=("calibri", 11))
+    #         ph_no_info_wrong.place(x=312, y=190)
+    #         register_screen.after(5000, ph_no_info_wrong.destroy())
+    #         flag1 = 1
+    #     try:
+    #         ii = int(percent_10_info)
+    #     except:
+    #         percent_10_info_wrong = Label(register_screen, text="Enter only Digits", fg="red", font=("calibri", 11))
+    #         percent_10_info_wrong.place(x=312, y=220)
+    #         register_screen.after(5000, percent_10_info_wrong.destroy())
+    #         flag1 = 1
+    #     try:
+    #         i = int(percent_12_info)
+    #     except:
+    #         percent_12_info_wrong = Label(register_screen, text="Enter only Digits", fg="red", font=("calibri", 11))
+    #         percent_12_info_wrong.place(x=312, y=250)
+    #         register_screen.after(5000, percent_12_info_wrong.destroy())
+    #         flag1 = 1
+    #     if flag1 == 0 and flag == 0:
+    #         register_user()
+
+
 # Designing window for login
 
+
+def register_user():
+    username_info = username.get()
+    password_info = password.get()
+    if str(username_info) in users.keys():
+        username_entry.delete(0, END)
+        password_entry.delete(0, END)
+        userr_already_register = Label(register_screen, text="User Already Registered.", fg="black",
+                                       font=("calibri", 13))
+        userr_already_register.place(x=178, y=400)
+        register_screen.after(2000, userr_already_register.destroy)
+    else:
+        users[str(username_info)] = {}
+        users[str(username_info)]["F_Name"] = ""
+        users[str(username_info)]["L_Name"] = ""
+        users[str(username_info)]["DOB"] = ""
+        users[str(username_info)]["Gender"] = ""
+        users[str(username_info)]["Email_ID"] = ""
+        users[str(username_info)]["ph_no"] = ""
+        users[str(username_info)]["10_percent"] = ""
+        users[str(username_info)]["12_percent"] = ""
+        users[str(username_info)]["Password"] = str(password_info)
+        username_entry.delete(0, END)
+        password_entry.delete(0, END)
+        aaa = Label(register_screen, text="Registration Success", fg="black", font=("calibri", 13))
+        aaa.place(x=178, y=400)
+        register_screen.after(2000, aaa.destroy)
+        f = open("database", "wb")
+        pickle.dump(users, f)
+        f.close()
+
+    # if os.path.exists(username_info):
+    #     username_entry.delete(0, END)
+    #     password_entry.delete(0, END)
+    #     Label(register_screen, text="User Already Registered.", fg="green", font=("calibri", 11)).pack()
+    #
+    # else:
+    #     file = open(username_info, "w")
+    #     file.write(username_info + "\n")
+    #     file.write(password_info)
+    #     file.close()
+    #     username_entry.delete(0, END)
+    #     password_entry.delete(0, END)
+    #
+    #     Label(register_screen, text="Registration Success", fg="green", font=("calibri", 11)).pack()
+    print(users)
+
+
+# Implementing event on login button
 def login():
     global login_screen
     login_screen = Toplevel(main_screen)
@@ -139,70 +303,6 @@ def login():
     Label(login_screen, text="").pack()
     Button(login_screen, text="Login", width=10, height=1, command=login_verify).pack()
 
-
-# Implementing event on register button
-
-def check():
-    F_Name_info = F_Name_entry.get()
-    L_Name_info = L_Name_entry.get()
-    username_info = username_entry.get()
-    password_info = password_entry.get()
-    DOB_info = DOB_entry.get()
-    Gender_info = Gender_entry.get()
-
-
-    if uu == "":
-        uuu = Tk()
-        uuu.geometry("200x80")
-        ll = Label(uuu, text="")
-        ll.pack()
-        ll = Label(uuu, text="Username cannot be empty", font=("calibri", 11))
-        ll.pack()
-
-
-def register_user():
-    username_info = username.get()
-    password_info = password.get()
-    if str(username_info) in users.keys():
-        username_entry.delete(0, END)
-        password_entry.delete(0, END)
-        Label(register_screen, text="User Already Registered.", fg="green", font=("calibri", 11)).pack()
-    else:
-        users[str(username_info)] = {}
-        users[str(username_info)]["F_Name"] = ""
-        users[str(username_info)]["L_Name"] = ""
-        users[str(username_info)]["DOB"] = ""
-        users[str(username_info)]["Gender"] = ""
-        users[str(username_info)]["Email_ID"] = ""
-        users[str(username_info)]["ph_no"] = ""
-        users[str(username_info)]["10_percent"] = ""
-        users[str(username_info)]["12_percent"] = ""
-        users[str(username_info)]["Password"] = str(password_info)
-        username_entry.delete(0, END)
-        password_entry.delete(0, END)
-        Label(register_screen, text="Registration Success", fg="green", font=("calibri", 11)).pack()
-        f = open("database", "wb")
-        pickle.dump(users, f)
-        f.close()
-
-    # if os.path.exists(username_info):
-    #     username_entry.delete(0, END)
-    #     password_entry.delete(0, END)
-    #     Label(register_screen, text="User Already Registered.", fg="green", font=("calibri", 11)).pack()
-    #
-    # else:
-    #     file = open(username_info, "w")
-    #     file.write(username_info + "\n")
-    #     file.write(password_info)
-    #     file.close()
-    #     username_entry.delete(0, END)
-    #     password_entry.delete(0, END)
-    #
-    #     Label(register_screen, text="Registration Success", fg="green", font=("calibri", 11)).pack()
-    print(users)
-
-
-# Implementing event on login button
 
 def login_verify():
     username1 = username_verify.get()
