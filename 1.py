@@ -5,7 +5,8 @@ window = Tk()
 window.geometry("300x150")
 
 
-def login():
+def login()\
+        :
     def login_database():
         conn = sqlite3.connect("1.db")
         cur = conn.cursor()

@@ -1,10 +1,40 @@
-users[str(username_info)] = {}
-        users[str(username_info)]["F_Name"] = ""
-        users[str(username_info)]["L_Name"] = ""
-        users[str(username_info)]["DOB"] = ""
-        users[str(username_info)]["Gender"] = ""
-        users[str(username_info)]["Email_ID"] = ""
-        users[str(username_info)]["ph_no"] = ""
-        users[str(username_info)]["10_percent"] = ""
-        users[str(username_info)]["12_percent"] = ""
-        users[str(username_info)]["Password"] = str(password_info)
+F_Name_lable = Label(register_screen, text="First Name : ")
+    F_Name_lable.place(x=95, y=40)
+    F_Name_entry = Entry(register_screen, textvariable=F_Name)
+    F_Name_entry.place(x=180, y=40)
+    L_Name_lable = Label(register_screen, text="Last Name : ")
+    L_Name_lable.place(x=96, y=70)
+    L_Name_entry = Entry(register_screen, textvariable=L_Name)
+    L_Name_entry.place(x=180, y=70)
+    username_lable = Label(register_screen, text="Username : ")
+    username_lable.place(x=99, y=100)
+    username_entry = Entry(register_screen, textvariable=username)
+    username_entry.place(x=180, y=100)
+    password_lable = Label(register_screen, text="Password :")
+    password_lable.place(x=102, y=130)
+    password_entry = Entry(register_screen, textvariable=password, show='*')
+    password_entry.place(x=180, y=130)
+    DOB_label = Label(register_screen, text="Date of Birth :")
+    DOB_label.place(x=86, y=160)
+    DOB_entry = Entry(register_screen, textvariable=DOB)
+    DOB_entry.place(x=180, y=160)
+    Gender_label = Label(register_screen, text="Gender :")
+    Gender_label.place(x=114, y=190)
+    Radiobutton(register_screen, text="Male", variable=Gender, value="Male").place(x=180, y=190)
+    Radiobutton(register_screen, text="Female", variable=Gender, value="Female").place(x=250, y=190)
+    Email_ID_label = Label(register_screen, text="Email ID :")
+    Email_ID_label.place(x=109, y=220)
+    Email_ID_entry = Entry(register_screen, textvariable=Email_ID)
+    Email_ID_entry.place(x=180, y=220)
+    ph_no_label = Label(register_screen, text="Phone Number :")
+    ph_no_label.place(x=71, y=250)
+    ph_no_entry = Entry(register_screen, textvariable=ph_no)
+    ph_no_entry.place(x=180, y=250)
+    percent_10_label = Label(register_screen, text="10th Percentage :")
+    percent_10_label.place(x=67, y=280)
+    percent_10_entry = Entry(register_screen, textvariable=percent_10)
+    percent_10_entry.place(x=180, y=280)
+    percent_12_label = Label(register_screen, text="12th Percentage :")
+    percent_12_label.place(x=67, y=310)
+    percent_12_entry = Entry(register_screen, textvariable=percent_12)
+    percent_12_entry.place(x=180, y=310)
