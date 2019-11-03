@@ -13,6 +13,16 @@ try:
 except FileNotFoundError:
     users = {}
 
+try:
+    file = open("admin", "rb")
+    admin = pickle.load(file)
+    file.close()
+except FileNotFoundError:
+    admin = {"ani": "ani"}
+    f = open("admin", "wb")
+    pickle.dump(admin, f)
+    f.close()
+
 
 def example2():
     DOB_entry.delete(0, END)
@@ -308,6 +318,34 @@ def register_user():
     print(users)
 
 
+def admin_login():
+    global admin_login_screen
+    admin_login_screen = Toplevel(main_screen)
+    admin_login_screen.title("Admin Login")
+    admin_login_screen.geometry("300x250")
+    Label(admin_login_screen, text="Please enter Admin details below to login").pack()
+    Label(admin_login_screen, text="").pack()
+
+    global admin_username_verify
+    global admin_password_verify
+
+    admin_username_verify = StringVar()
+    admin_password_verify = StringVar()
+
+    global admin_username_login_entry
+    global admin_password_login_entry
+
+    Label(admin_login_screen, text="Username * ").pack()
+    admin_username_login_entry = Entry(admin_login_screen, textvariable=admin_username_verify)
+    admin_username_login_entry.pack()
+    Label(admin_login_screen, text="").pack()
+    Label(admin_login_screen, text="Password * ").pack()
+    admin_password_login_entry = Entry(admin_login_screen, textvariable=admin_password_verify, show='*')
+    admin_password_login_entry.pack()
+    Label(admin_login_screen, text="").pack()
+    Button(admin_login_screen, text="Login", width=10, height=1, command=admin_login_verify).pack()
+
+
 # Implementing event on login button
 def login():
     global login_screen
@@ -364,6 +402,38 @@ def login_verify():
         user_not_found()
 
 
+def admin_login_verify():
+    username1 = admin_username_verify.get()
+    password1 = admin_password_verify.get()
+    admin_username_login_entry.delete(0, END)
+    admin_password_login_entry.delete(0, END)
+
+    if str(username1) in admin.keys():
+        if str(password1) == admin[username1]:
+            admin_login_sucess()
+        else:
+            admin_password_not_recognised()
+    else:
+        admin_user_not_found()
+
+
+def admin_login_sucess():
+    pass
+
+
+def admin_password_not_recognised():
+    pass
+
+
+def admin_user_not_found():
+    global admin_not_found_screen
+    admin_not_found_screen = Toplevel(admin_login_screen)
+    admin_not_found_screen.title("Failed")
+    admin_not_found_screen.geometry("200x200")
+    Label(admin_not_found_screen, text="Admin Not Found").pack()
+    Button(admin_not_found_screen, text="OK", command=admin_delete_user_not_found_screen).pack()
+
+
 # Designing popup for login success
 
 def login_sucess():
@@ -406,6 +476,9 @@ def delete_login_success():
 def delete_password_not_recognised():
     password_not_recog_screen.destroy()
 
+def admin_delete_password_not_recognised():
+    password_not_recog_screen.destroy()
+
 
 def delete_user_not_found_screen():
     user_not_found_screen.destroy()
@@ -430,7 +503,7 @@ def main_account_screen():
     Label(text="").pack()
     Button(text="Student Register", height="2", width="30", command=register).pack()
     Label(text="").pack()
-    Button(text="Admin Login", height="2", width="30").pack()
+    Button(text="Admin Login", height="2", width="30", command=admin_login).pack()
     Label(text="").pack()
     main_screen.mainloop()
 
