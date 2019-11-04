@@ -148,8 +148,9 @@ def register():
     # Label(register_screen, text="").pack()
     # Button(register_screen, text="Register", width=15, height=2, bg="black", fg="white", command=register_user).place(
     #     x=178, y=350)
-    bb = Button(register_screen, text="Register", width=15, height=2, bg="black", fg="white", command=check).place(
-        x=178, y=350)
+    bb = Button(register_screen, text="Register", width=15, height=2, bg="black", fg="white", command=check)
+    bb.place(x=178, y=350)
+    register_screen.bind('<Return>', lambda event=None: bb.invoke())
 
 
 def check():
@@ -275,8 +276,9 @@ def register_user():
     percent_10_info = percent_10.get()
     percent_12_info = percent_12.get()
     if str(username_info) in users.keys():
-        # username_entry.delete(0, END)
-        # password_entry.delete(0, END)
+        username_entry.delete(0, END)
+        password_entry.delete(0, END)
+        username_entry.focus_set()
         userr_already_register = Label(register_screen, text="User Already Registered.", fg="black",
                                        font=("calibri", 13))
         userr_already_register.place(x=178, y=400)
@@ -292,8 +294,17 @@ def register_user():
         users[str(username_info)]["10_percent"] = str(percent_10_info)
         users[str(username_info)]["12_percent"] = str(percent_12_info)
         users[str(username_info)]["Password"] = str(password_info)
-        # username_entry.delete(0, END)
-        # password_entry.delete(0, END)
+        users[str(username_info)]["Status"] = "no"
+        F_Name_entry.delete(0, END)
+        L_Name_entry.delete(0, END)
+        password_entry.delete(0, END)
+        username_entry.delete(0, END)
+        DOB_entry.delete(0, END)
+        Email_ID_entry.delete(0, END)
+        ph_no_entry.delete(0, END)
+        percent_10_entry.delete(0, END)
+        percent_12_entry.delete(0, END)
+        F_Name_entry.focus_set()
         aaa = Label(register_screen, text="Registration Successful", fg="black", font=("calibri", 13))
         aaa.place(x=178, y=400)
         register_screen.after(5000, aaa.destroy)
@@ -338,12 +349,15 @@ def admin_login():
     Label(admin_login_screen, text="Username * ").pack()
     admin_username_login_entry = Entry(admin_login_screen, textvariable=admin_username_verify)
     admin_username_login_entry.pack()
+    admin_username_login_entry.focus_set()
     Label(admin_login_screen, text="").pack()
     Label(admin_login_screen, text="Password * ").pack()
     admin_password_login_entry = Entry(admin_login_screen, textvariable=admin_password_verify, show='*')
     admin_password_login_entry.pack()
     Label(admin_login_screen, text="").pack()
-    Button(admin_login_screen, text="Login", width=10, height=1, command=admin_login_verify).pack()
+    b1 = Button(admin_login_screen, text="Login", width=10, height=1, command=admin_login_verify)
+    b1.pack()
+    admin_login_screen.bind('<Return>', lambda event=None: b1.invoke())
 
 
 # Implementing event on login button
@@ -367,19 +381,20 @@ def login():
     Label(login_screen, text="Username * ").pack()
     username_login_entry = Entry(login_screen, textvariable=username_verify)
     username_login_entry.pack()
+    username_login_entry.focus_set()
     Label(login_screen, text="").pack()
     Label(login_screen, text="Password * ").pack()
     password_login_entry = Entry(login_screen, textvariable=password_verify, show='*')
     password_login_entry.pack()
     Label(login_screen, text="").pack()
-    Button(login_screen, text="Login", width=10, height=1, command=login_verify).pack()
+    b2 = Button(login_screen, text="Login", width=10, height=1, command=login_verify)
+    b2.pack()
+    login_screen.bind('<Return>', lambda event=None: b2.invoke())
 
 
 def login_verify():
     username1 = username_verify.get()
     password1 = password_verify.get()
-    username_login_entry.delete(0, END)
-    password_login_entry.delete(0, END)
 
     # list_of_files = os.listdir()
     # if username1 in list_of_files:
@@ -397,41 +412,135 @@ def login_verify():
         if str(password1) == users[str(username1)]["Password"]:
             login_sucess()
         else:
-            password_not_recognised()
+            pwd_wrng = Label(login_screen, text="Wrong Password.", fg="red", font=("calibri", 11))
+            pwd_wrng.pack()
+            password_login_entry.delete(0, END)
+            password_login_entry.focus_set()
+            pwd_wrng.after(5000, pwd_wrng.destroy)
     else:
-        user_not_found()
+        pwd_wrng = Label(login_screen, text="Username not found.", fg="red", font=("calibri", 11))
+        pwd_wrng.pack()
+        username_login_entry.delete(0, END)
+        password_login_entry.delete(0, END)
+        username_login_entry.focus_set()
+        pwd_wrng.after(5000, pwd_wrng.destroy)
 
 
 def admin_login_verify():
     username1 = admin_username_verify.get()
     password1 = admin_password_verify.get()
-    admin_username_login_entry.delete(0, END)
-    admin_password_login_entry.delete(0, END)
 
     if str(username1) in admin.keys():
         if str(password1) == admin[username1]:
             admin_login_sucess()
         else:
-            admin_password_not_recognised()
+            pwd_wrng = Label(admin_login_screen, text="Wrong Password.", fg="red", font=("calibri", 11))
+            pwd_wrng.pack()
+            # admin_username_login_entry.delete(0, END)
+            admin_password_login_entry.delete(0, END)
+            admin_password_login_entry.focus_set()
+            pwd_wrng.after(5000, pwd_wrng.destroy)
     else:
-        admin_user_not_found()
+        pwd_wrng = Label(admin_login_screen, text="Username Not Found.", fg="red", font=("calibri", 11))
+        pwd_wrng.pack()
+        admin_username_login_entry.delete(0, END)
+        admin_password_login_entry.delete(0, END)
+        admin_username_login_entry.focus_set()
+        pwd_wrng.after(5000, pwd_wrng.destroy)
 
 
 def admin_login_sucess():
-    pass
+    global admin_dashboard
+    admin_dashboard = Toplevel(admin_login_screen)
+    admin_dashboard.title("Dashboard")
+    admin_dashboard.geometry("150x150")
 
+    OPTIONS = [a for a in users.keys()]
+    OPTIONS = sorted(OPTIONS)
+    variable = StringVar(admin_dashboard)
+    variable.set(OPTIONS[0])  # default value
+    Label(admin_dashboard, text="Choose Student.").pack()
+    w = OptionMenu(admin_dashboard, variable, *OPTIONS)
+    w.pack()
 
-def admin_password_not_recognised():
-    pass
+    def okkk():
+        usern = str(variable.get())
+        print(usern)
+        global status_window
+        status_window = Toplevel(admin_dashboard)
+        status_window.title("Change Details")
+        status_window.geometry("500x450")
+        Label(status_window, text="Student Application", bg="black", fg="white", width="400", height="1",
+              font=("Calibri", 13)).pack()
+        Label(status_window, text="").pack()
+        F_Name_lable = Label(status_window, text="FirsName : ")
+        F_Name_lable.place(x=95, y=40)
+        aa = StringVar()
+        F_Name_entryy = Entry(status_window, textvariable=aa, state='disabled')
+        aa.set(users[usern]["F_Name"])
+        # F_Name_entry.setvar(users[usern]["F_Name"])
+        # F_Name_entryy.setvar("dadwad")
+        F_Name_entryy.place(x=180, y=40)
+        L_Name_lable = Label(status_window, text="Last Name : ")
+        L_Name_lable.place(x=96, y=70)
+        L_Name_entry = Entry(status_window)
+        L_Name_entry.setvar(users[usern]["L_Name"])
+        L_Name_entry.place(x=180, y=70)
+        username_lable = Label(status_window, text="Username : ")
+        username_lable.place(x=99, y=100)
+        username_entry = Entry(status_window)
+        username_entry.setvar(str(usern))
+        username_entry.place(x=180, y=100)
+        password_lable = Label(status_window, text="Password :")
+        password_lable.place(x=102, y=130)
+        password_entry = Entry(status_window, show='*')
+        password_entry.setvar(users[usern]["Password"])
+        password_entry.place(x=180, y=130)
+        DOB_label = Label(status_window, text="Date of Birth :")
+        DOB_label.place(x=86, y=160)
+        DOB_entry = Entry(status_window)
+        DOB_entry.setvar(users[usern]["DOB"])
+        DOB_entry.place(x=180, y=160)
+        Gender_label = Label(status_window, text="Gender :")
+        Gender_label.place(x=114, y=190)
+        Email_ID_label = Label(status_window, text="Email ID :")
+        Email_ID_label.place(x=109, y=220)
+        Email_ID_entry = Entry(status_window)
+        Email_ID_entry.setvar(users[usern]["Email_ID"])
+        Email_ID_entry.place(x=180, y=220)
+        ph_no_label = Label(status_window, text="Phone Number :")
+        ph_no_label.place(x=71, y=250)
+        ph_no_entry = Entry(status_window)
+        ph_no_entry.setvar(users[usern]["ph_no"])
+        ph_no_entry.place(x=180, y=250)
+        percent_10_label = Label(status_window, text="10th Percentage :")
+        percent_10_label.place(x=67, y=280)
+        percent_10_entry = Entry(status_window)
+        percent_10_entry.setvar(users[usern]["10_percent"])
+        percent_10_entry.place(x=180, y=280)
+        percent_12_label = Label(status_window, text="12th Percentage :")
+        percent_12_label.place(x=67, y=310)
+        percent_12_entry = Entry(status_window)
+        percent_12_entry.setvar(users[usern]["12_percent"])
+        percent_12_entry.place(x=180, y=310)
 
+        # _lable = Label(register_screen, text="Password :")
+        # password_lable.place(x=102, y=100)
+        # password_entry = Entry(register_screen, textvariable=password, show='*')
+        # password_entry.place(x=180, y=100)
+        # password_lable = Label(register_screen, text="Password :")
+        # password_lable.place(x=102, y=100)
+        # password_entry = Entry(register_screen, textvariable=password, show='*')
+        # password_entry.place(x=180, y=100)
+        # Label(register_screen, text="").pack()
+        # Button(register_screen, text="Register", width=15, height=2, bg="black", fg="white", command=register_user).place(
+        #     x=178, y=350)
+        # bb = Button(status_window, text="Register", width=15, height=2, bg="black", fg="white", command=check)
+        # bb.place(x=178, y=350)
+        # status_window.bind('<Return>', lambda event=None: bb.invoke())
 
-def admin_user_not_found():
-    global admin_not_found_screen
-    admin_not_found_screen = Toplevel(admin_login_screen)
-    admin_not_found_screen.title("Failed")
-    admin_not_found_screen.geometry("200x200")
-    Label(admin_not_found_screen, text="Admin Not Found").pack()
-    Button(admin_not_found_screen, text="OK", command=admin_delete_user_not_found_screen).pack()
+    buttonn = Button(admin_dashboard, text="OK", command=okkk)
+    buttonn.pack()
 
 
 # Designing popup for login success
@@ -443,45 +552,6 @@ def login_sucess():
     login_success_screen.geometry("150x100")
     Label(login_success_screen, text="Login Success").pack()
     Button(login_success_screen, text="OK", command=delete_login_success).pack()
-
-
-# Designing popup for login invalid password
-
-def password_not_recognised():
-    global password_not_recog_screen
-    password_not_recog_screen = Toplevel(login_screen)
-    password_not_recog_screen.title("Success")
-    password_not_recog_screen.geometry("150x100")
-    Label(password_not_recog_screen, text="Invalid Password ").pack()
-    Button(password_not_recog_screen, text="OK", command=delete_password_not_recognised).pack()
-
-
-# Designing popup for user not found
-
-def user_not_found():
-    global user_not_found_screen
-    user_not_found_screen = Toplevel(login_screen)
-    user_not_found_screen.title("Success")
-    user_not_found_screen.geometry("150x100")
-    Label(user_not_found_screen, text="User Not Found").pack()
-    Button(user_not_found_screen, text="OK", command=delete_user_not_found_screen).pack()
-
-
-# Deleting popups
-
-def delete_login_success():
-    login_success_screen.destroy()
-
-
-def delete_password_not_recognised():
-    password_not_recog_screen.destroy()
-
-def admin_delete_password_not_recognised():
-    password_not_recog_screen.destroy()
-
-
-def delete_user_not_found_screen():
-    user_not_found_screen.destroy()
 
 
 # Designing Main(first) window
