@@ -312,21 +312,6 @@ def register_user():
         f = open("database", "wb")
         pickle.dump(users, f)
         f.close()
-
-    # if os.path.exists(username_info):
-    #     username_entry.delete(0, END)
-    #     password_entry.delete(0, END)
-    #     Label(register_screen, text="User Already Registered.", fg="green", font=("calibri", 11)).pack()
-    #
-    # else:
-    #     file = open(username_info, "w")
-    #     file.write(username_info + "\n")
-    #     file.write(password_info)
-    #     file.close()
-    #     username_entry.delete(0, END)
-    #     password_entry.delete(0, END)
-    #
-    #     Label(register_screen, text="Registration Success", fg="green", font=("calibri", 11)).pack()
     print(users)
 
 
