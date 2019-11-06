@@ -465,12 +465,14 @@ def admin_login_sucess():
     w.pack()
 
     def okkk():
+        global Status
+        Status = StringVar()
         usern = str(variable.get())
         print(usern)
         global status_window
         status_window = Toplevel(admin_dashboard)
         status_window.title("Change Details")
-        status_window.geometry("500x450")
+        status_window.geometry("400x450")
         Label(status_window, text="Student Application", bg="black", fg="white", width="400", height="1",
               font=("Calibri", 13)).pack()
         Label(status_window, text="").pack()
@@ -534,21 +536,30 @@ def admin_login_sucess():
         percent_12_entry = Entry(status_window, textvariable=aa7, state='disabled')
         aa7.set(users[usern]["12_percent"])
         percent_12_entry.place(x=180, y=310)
+        if users[usern]["Status"] == "no":
+            r12 = Radiobutton(status_window, text="Accept", variable=Status, value="yes", font=("Calibri", 13))
+            r12.place(x=120, y=360)
+            r12.deselect()
+            r22 = Radiobutton(status_window, text="Decline", variable=Status, value="no", font=("Calibri", 13))
+            r22.place(x=210, y=360)
+            r22.select()
+        else:
+            r12 = Radiobutton(status_window, text="Accept", variable=Status, value="yes", font=("Calibri", 13))
+            r12.place(x=120, y=360)
+            r12.select()
+            r22 = Radiobutton(status_window, text="Decline", variable=Status, value="no", font=("Calibri", 13))
+            r22.place(x=210, y=360)
+            r22.deselect()
 
-        # _lable = Label(register_screen, text="Password :")
-        # password_lable.place(x=102, y=100)
-        # password_entry = Entry(register_screen, textvariable=password, show='*')
-        # password_entry.place(x=180, y=100)
-        # password_lable = Label(register_screen, text="Password :")
-        # password_lable.place(x=102, y=100)
-        # password_entry = Entry(register_screen, textvariable=password, show='*')
-        # password_entry.place(x=180, y=100)
-        # Label(register_screen, text="").pack()
-        # Button(register_screen, text="Register", width=15, height=2, bg="black", fg="white", command=register_user).place(
-        #     x=178, y=350)
-        # bb = Button(status_window, text="Register", width=15, height=2, bg="black", fg="white", command=check)
-        # bb.place(x=178, y=350)
-        # status_window.bind('<Return>', lambda event=None: bb.invoke())
+        def gg():
+            gg = Status.get()
+            users[usern]["Status"] = gg
+            print(users[usern])
+            f = open("database", "wb")
+            pickle.dump(users, f)
+            f.close()
+
+        Button(status_window, text="Submit", command=gg).place(x=150, y=390)
 
     buttonn = Button(admin_dashboard, text="OK", command=okkk)
     admin_dashboard.bind('<Return>', lambda event=None: buttonn.invoke())
