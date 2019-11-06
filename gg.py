@@ -84,8 +84,6 @@ def register():
     percent_10 = StringVar()
     percent_12 = StringVar()
 
-    # Label(register_screen, text="Please enter details below", bg="blue").pack()
-    # Label(register_screen, text="").pack()
     Label(register_screen, text="Enter your Registration Details.", bg="black", fg="white", width="400", height="1",
           font=("Calibri", 13)).pack()
     Label(register_screen, text="").pack()
@@ -137,18 +135,6 @@ def register():
     percent_12_label.place(x=67, y=310)
     percent_12_entry = Entry(register_screen, textvariable=percent_12)
     percent_12_entry.place(x=180, y=310)
-
-    # _lable = Label(register_screen, text="Password :")
-    # password_lable.place(x=102, y=100)
-    # password_entry = Entry(register_screen, textvariable=password, show='*')
-    # password_entry.place(x=180, y=100)
-    # password_lable = Label(register_screen, text="Password :")
-    # password_lable.place(x=102, y=100)
-    # password_entry = Entry(register_screen, textvariable=password, show='*')
-    # password_entry.place(x=180, y=100)
-    # Label(register_screen, text="").pack()
-    # Button(register_screen, text="Register", width=15, height=2, bg="black", fg="white", command=register_user).place(
-    #     x=178, y=350)
     bb = Button(register_screen, text="Register", width=15, height=2, bg="black", fg="white", command=check)
     bb.place(x=178, y=350)
     register_screen.bind('<Return>', lambda event=None: bb.invoke())
