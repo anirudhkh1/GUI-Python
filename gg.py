@@ -199,7 +199,7 @@ def check():
         flag = 1
         register_screen.after(5000, percent_12_info_empty.destroy)
     if flag == 0:
-        if "@" not in Email_ID_info and ".com" not in Email_ID_info:
+        if "@" not in Email_ID_info or ".com" not in Email_ID_info:
             Email_ID_info_emptyy = Label(register_screen, text="Invalid Format.", fg="red", font=("calibri", 11))
             Email_ID_info_emptyy.place(x=312, y=220)
             register_screen.after(5000, Email_ID_info_emptyy.destroy)
@@ -281,7 +281,7 @@ def register_user():
         users[str(username_info)]["10_percent"] = str(percent_10_info)
         users[str(username_info)]["12_percent"] = str(percent_12_info)
         users[str(username_info)]["Password"] = str(password_info)
-        users[str(username_info)]["Status"] = "no"
+        users[str(username_info)]["Status"] = "pending"
         F_Name_entry.delete(0, END)
         L_Name_entry.delete(0, END)
         password_entry.delete(0, END)
@@ -424,12 +424,13 @@ def admin_login_sucess():
 
     def okkk():
         global Status
+
         Status = StringVar()
         usern = str(variable.get())
         print(usern)
         global status_window
         status_window = Toplevel(admin_dashboard)
-        status_window.title("Change Details")
+        status_window.title("Application Status")
         status_window.geometry("400x450")
         Label(status_window, text="Student Application", bg="black", fg="white", width="400", height="1",
               font=("Calibri", 13)).pack()
@@ -494,19 +495,53 @@ def admin_login_sucess():
         percent_12_entry = Entry(status_window, textvariable=aa7, state='disabled')
         aa7.set(users[usern]["12_percent"])
         percent_12_entry.place(x=180, y=310)
-        if users[usern]["Status"] == "no":
+        aaa1 = StringVar()
+
+        def abc():
+            if users[usern]["Status"] == "pending":
+                status_label = Label(status_window, text="Status :")
+                status_label.place(x=120, y=340)
+                status_entry = Entry(status_window, textvariable=aaa1, state='disabled')
+                aaa1.set("Pending")
+                status_entry.place(x=180, y=340)
+            elif users[usern]["Status"] == "no":
+                status_label = Label(status_window, text="Status :")
+                status_label.place(x=120, y=340)
+                status_entry = Entry(status_window, textvariable=aaa1, state='disabled')
+                aaa1.set("Declined")
+                status_entry.place(x=180, y=340)
+            elif users[usern]["Status"] == "yes":
+                status_label = Label(status_window, text="Status :")
+                status_label.place(x=120, y=340)
+                status_entry = Entry(status_window, textvariable=aaa1, state='disabled')
+                aaa1.set("Accepted")
+                status_entry.place(x=180, y=340)
+
+        abc()
+
+        if users[usern]["Status"] == "pending":
             r12 = Radiobutton(status_window, text="Accept", variable=Status, value="yes", font=("Calibri", 13))
-            r12.place(x=120, y=360)
+            r12.place(x=40, y=370)
             r12.deselect()
             r22 = Radiobutton(status_window, text="Decline", variable=Status, value="no", font=("Calibri", 13))
-            r22.place(x=210, y=360)
-            r22.select()
-        else:
+            r22.place(x=130, y=370)
+            r22.deselect()
+            r222 = Radiobutton(status_window, text="Pending", variable=Status, value="pending", font=("Calibri", 13))
+            r222.place(x=220, y=370)
+            r222.select()
+        elif users[usern]["Status"] == "no":
             r12 = Radiobutton(status_window, text="Accept", variable=Status, value="yes", font=("Calibri", 13))
-            r12.place(x=120, y=360)
+            r12.place(x=120, y=370)
+            r12.deselect()
+            r22 = Radiobutton(status_window, text="Decline", variable=Status, value="no", font=("Calibri", 13))
+            r22.place(x=210, y=370)
+            r22.select()
+        elif users[usern]["Status"] == "yes":
+            r12 = Radiobutton(status_window, text="Accept", variable=Status, value="yes", font=("Calibri", 13))
+            r12.place(x=120, y=370)
             r12.select()
             r22 = Radiobutton(status_window, text="Decline", variable=Status, value="no", font=("Calibri", 13))
-            r22.place(x=210, y=360)
+            r22.place(x=210, y=370)
             r22.deselect()
 
         def gg():
@@ -516,12 +551,14 @@ def admin_login_sucess():
             f = open("database", "wb")
             pickle.dump(users, f)
             f.close()
+            status_window.after(1, abc)
 
-        Button(status_window, text="Submit", command=gg).place(x=150, y=390)
+        Button(status_window, text="Submit", command=gg, font=("Calibri", 12)).place(x=150, y=410)
 
-    buttonn = Button(admin_dashboard, text="OK", command=okkk)
-    admin_dashboard.bind('<Return>', lambda event=None: buttonn.invoke())
+    buttonn = Button(admin_dashboard, text="OK", font=("Calibri", 11), command=okkk)
     buttonn.pack()
+    buttonn.focus_set()
+    admin_dashboard.bind('<Return>', lambda event=None: buttonn.invoke())
 
 
 # Designing popup for login success
