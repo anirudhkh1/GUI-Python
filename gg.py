@@ -207,7 +207,7 @@ def check():
         try:
             i = int(ph_no_info)
             digits = int(math.log10(i)) + 1
-            if digits != 10 and digits != 12:
+            if digits != 10:
                 flag1 = 1
                 ph_no_info_wrong = Label(register_screen, text="Invalid Format.", fg="red", font=("calibri", 11))
                 ph_no_info_wrong.place(x=312, y=250)
@@ -574,11 +574,159 @@ def login_sucess():
     Label(login_success_screen, text="Welcome %s" % (users[username_verify.get()]["F_Name"]), bg="black", fg="white",
           width="300",
           height="2", font=("Calibri", 13)).pack()
-    b1 = Button(login_success_screen, text="Edit Details").pack()
-    b2 = Button(login_success_screen, text="Edit Details").pack()
-    # b1.grid(row=1, column=0)
+    Label(login_success_screen, text="").pack()
+    b1 = Button(login_success_screen, text="Edit Details", width=13, height=1, bg="black", fg="white",
+                command=edit_details).pack()
+    Label(login_success_screen, text="").pack()
+    b2 = Button(login_success_screen, text="Check Status", width=13, height=1, bg="black", fg="white",
+                command=check_status).pack()
 
-    # Designing Main(first) window
+
+def edit_details():
+    usern = username_verify.get()
+    global edit_details_window
+    global new_password
+    global new_email
+    global new_number
+    new_password = StringVar()
+    new_email = StringVar()
+    new_number = StringVar()
+    edit_details_window = Toplevel(login_success_screen)
+    edit_details_window.title("Edit Details")
+    edit_details_window.geometry("500x400")
+    Label(edit_details_window, text="Edit Details", bg="black", fg="white", width="400", height="1",
+          font=("Calibri", 13)).pack()
+    Label(edit_details_window, text="").pack()
+    F_Name_lable = Label(edit_details_window, text="FirsName : ")
+    F_Name_lable.place(x=95, y=40)
+    aa = StringVar()
+    F_Name_entryy = Entry(edit_details_window, textvariable=aa, state='disabled')
+    aa.set(users[usern]["F_Name"])
+    F_Name_entryy.place(x=180, y=40)
+    L_Name_lable = Label(edit_details_window, text="Last Name : ")
+    L_Name_lable.place(x=96, y=70)
+    aa1 = StringVar()
+    L_Name_entry = Entry(edit_details_window, textvariable=aa1, state='disabled')
+    aa1.set(users[usern]["L_Name"])
+    L_Name_entry.place(x=180, y=70)
+    username_lable = Label(edit_details_window, text="Username : ")
+    username_lable.place(x=99, y=100)
+    aa2 = StringVar()
+    username_entry = Entry(edit_details_window, textvariable=aa2, state='disabled')
+    aa2.set(usern)
+    username_entry.place(x=180, y=100)
+    password_lable = Label(edit_details_window, text="Password :")
+    password_lable.place(x=102, y=130)
+    password_entry = Entry(edit_details_window, textvariable=new_password)
+    new_password.set(users[usern]["Password"])
+    password_entry.place(x=180, y=130)
+    DOB_label = Label(edit_details_window, text="Date of Birth :")
+    DOB_label.place(x=86, y=160)
+    aa4 = StringVar()
+    DOB_entry = Entry(edit_details_window, textvariable=aa4, state='disabled')
+    aa4.set(users[usern]["DOB"])
+    DOB_entry.place(x=180, y=160)
+    Gender_label = Label(edit_details_window, text="Gender :")
+    Gender_label.place(x=114, y=190)
+    aa11 = StringVar()
+    Gender_entry = Entry(edit_details_window, textvariable=aa11, state='disabled')
+    aa11.set(users[usern]["Gender"])
+    Gender_entry.place(x=180, y=190)
+    Email_ID_label = Label(edit_details_window, text="Email ID :")
+    Email_ID_label.place(x=109, y=220)
+    Email_ID_entry = Entry(edit_details_window, textvariable=new_email)
+    new_email.set(users[usern]["Email_ID"])
+    Email_ID_entry.place(x=180, y=220)
+    ph_no_label = Label(edit_details_window, text="Phone Number :")
+    ph_no_label.place(x=71, y=250)
+    ph_no_entry = Entry(edit_details_window, textvariable=new_number)
+    new_number.set(users[usern]["ph_no"])
+    ph_no_entry.place(x=180, y=250)
+    percent_10_label = Label(edit_details_window, text="10th Percentage :")
+    percent_10_label.place(x=67, y=280)
+    aa6 = StringVar()
+    percent_10_entry = Entry(edit_details_window, textvariable=aa6, state='disabled')
+    aa6.set(users[usern]["10_percent"])
+    percent_10_entry.place(x=180, y=280)
+    percent_12_label = Label(edit_details_window, text="12th Percentage :")
+    percent_12_label.place(x=67, y=310)
+    aa7 = StringVar()
+    percent_12_entry = Entry(edit_details_window, textvariable=aa7, state='disabled')
+    aa7.set(users[usern]["12_percent"])
+    percent_12_entry.place(x=180, y=310)
+    v_b = Button(edit_details_window, text="Submit", width=13, height=1, bg="black", fg="white",
+                 command=verify_edit_details)
+    v_b.place(x=180, y=340)
+    edit_details_window.bind('<Return>', lambda event=None: v_b.invoke())
+
+
+def verify_edit_details():
+    flag = 0
+    flag1 = 0
+    password_info = new_password.get()
+    Email_ID_info = new_email.get()
+    ph_no_info = new_number.get()
+    if password_info == "":
+        password_info_empty = Label(edit_details_window, text="Password cannot be empty.", fg="red",
+                                    font=("calibri", 11))
+        password_info_empty.place(x=312, y=130)
+        flag = 1
+        edit_details_window.after(5000, password_info_empty.destroy)
+    if Email_ID_info == "":
+        Email_ID_info_empty = Label(edit_details_window, text="E-Mail cannot be empty.", fg="red", font=("calibri", 11))
+        Email_ID_info_empty.place(x=312, y=220)
+        flag = 1
+        register_screen.after(5000, Email_ID_info_empty.destroy)
+    if ph_no_info == "":
+        ph_no_info_empty = Label(edit_details_window, text="Ph.No cannot be empty.", fg="red", font=("calibri", 11))
+        ph_no_info_empty.place(x=312, y=250)
+        flag = 1
+        edit_details_window.after(5000, ph_no_info_empty.destroy)
+    if flag == 0:
+        if "@" not in Email_ID_info or ".com" not in Email_ID_info:
+            Email_ID_info_emptyy = Label(edit_details_window, text="Invalid Format.", fg="red", font=("calibri", 11))
+            Email_ID_info_emptyy.place(x=312, y=220)
+            edit_details_window.after(5000, Email_ID_info_emptyy.destroy)
+            flag1 = 1
+        try:
+            i = int(ph_no_info)
+            digits = int(math.log10(i)) + 1
+            if digits != 10:
+                flag1 = 1
+                ph_no_info_wrong = Label(edit_details_window, text="Invalid Format.", fg="red", font=("calibri", 11))
+                ph_no_info_wrong.place(x=312, y=250)
+                edit_details_window.after(5000, ph_no_info_wrong.destroy)
+        except Exception as e:
+            print(e)
+            flag1 = 1
+            ph_no_info_wrong = Label(edit_details_window, text="Enter only Digits", fg="red", font=("calibri", 11))
+            ph_no_info_wrong.place(x=312, y=250)
+            edit_details_window.after(5000, ph_no_info_wrong.destroy)
+    if flag1 == 0 and flag == 0:
+        done_editing()
+
+
+def done_editing():
+    usern = username_verify.get()
+    password_info = new_password.get()
+    Email_ID_info = new_email.get()
+    ph_no_info = new_number.get()
+    aaa = Label(edit_details_window, text="Details Edited Successfully", fg="black", font=("calibri", 13))
+    aaa.place(x=178, y=370)
+    edit_details_window.after(5000, aaa.destroy)
+    users[usern]["Password"] = password_info
+    users[usern]["Email_ID"] = Email_ID_info
+    users[usern]["ph_no"] = ph_no_info
+    f = open("database", "wb")
+    pickle.dump(users, f)
+    f.close()
+    print(users)
+
+
+def check_status():
+    status_window = Toplevel(login_success_screen)
+    status_window.title("Status")
+    status_window.geometry("200x200")
 
 
 def main_account_screen():

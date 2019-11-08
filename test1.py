@@ -1,32 +1,29 @@
-from tkinter import *
-
-class App():
-  def __init__(self, master):
-    frame = Frame(master)
-    frame.pack()
-
-    master.title("Just my example")
-    self.label = Label(frame, text="Type very long text:")
-
-    self.entry = Entry(frame)
-
-    self.button = Button(frame,
-                         text="Quit", fg="red", width=20,
-                         command=frame.quit)
+try:                        # In order to be able to import tkinter for
+    import tkinter as tk    # either in python 2 or in python 3
+except ImportError:
+    import Tkinter as tk
 
 
-    self.slogan = Button(frame,
-                         text="Hello", width=20,
-                         command=self.write_slogan)
+def toggle_password():
+    global entry, checkbutton
+    if checkbutton.var.get():
+        entry['show'] = "*"
+    else:
+        entry['show'] = ""
 
-    self.label.grid(row=0, column=0)
-    self.entry.grid(row=0, column=1)
-    self.slogan.grid(row=1, column=0)
-    self.button.grid(row=1, column=1)
 
-  def write_slogan(self):
-    print("Tkinter is easy to use!")
-
-root = Tk()
-app = App(root)
-root.mainloop()
+if __name__ == '__main__':
+    root = tk.Tk()
+    entry = tk.Entry(root)
+    entry.default_show_val = entry['show']
+    entry['show'] = "*"
+    checkbutton = tk.Checkbutton(root,
+                                        text="Hide password",
+                                        onvalue=True,
+                                        offvalue=False,
+                                        command=toggle_password)
+    checkbutton.var = tk.BooleanVar(value=True)
+    checkbutton['variable'] = checkbutton.var
+    entry.pack()
+    checkbutton.pack()
+    tk.mainloop()
