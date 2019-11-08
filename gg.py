@@ -306,7 +306,8 @@ def admin_login():
     admin_login_screen = Toplevel(main_screen)
     admin_login_screen.title("Admin Login")
     admin_login_screen.geometry("300x250")
-    Label(admin_login_screen, text="Please enter Admin details below to login").pack()
+    Label(admin_login_screen, text="Enter Admin details.", bg="black", fg="white", width="300", height="2",
+          font=("Calibri", 13)).pack()
     Label(admin_login_screen, text="").pack()
 
     global admin_username_verify
@@ -327,7 +328,8 @@ def admin_login():
     admin_password_login_entry = Entry(admin_login_screen, textvariable=admin_password_verify, show='*')
     admin_password_login_entry.pack()
     Label(admin_login_screen, text="").pack()
-    b1 = Button(admin_login_screen, text="Login", width=10, height=1, command=admin_login_verify)
+    b1 = Button(admin_login_screen, text="Login", width=15, height=1, bg="black", fg="white",
+                command=admin_login_verify)
     b1.pack()
     admin_login_screen.bind('<Return>', lambda event=None: b1.invoke())
 
@@ -338,7 +340,8 @@ def login():
     login_screen = Toplevel(main_screen)
     login_screen.title("Login")
     login_screen.geometry("300x250")
-    Label(login_screen, text="Please enter details below to login").pack()
+    Label(login_screen, text="Please enter details below to login", bg="black", fg="white", width="300", height="2",
+          font=("Calibri", 13)).pack()
     Label(login_screen, text="").pack()
 
     global username_verify
@@ -359,7 +362,7 @@ def login():
     password_login_entry = Entry(login_screen, textvariable=password_verify, show='*')
     password_login_entry.pack()
     Label(login_screen, text="").pack()
-    b2 = Button(login_screen, text="Login", width=10, height=1, command=login_verify)
+    b2 = Button(login_screen, text="Login", width=15, height=1, bg="black", fg="white", command=login_verify)
     b2.pack()
     login_screen.bind('<Return>', lambda event=None: b2.invoke())
 
@@ -566,15 +569,23 @@ def admin_login_sucess():
 def login_sucess():
     global login_success_screen
     login_success_screen = Toplevel(login_screen)
-    login_success_screen.title("Success")
-    login_success_screen.geometry("150x100")
-    Label(login_success_screen, text="Login Success").pack()
-    Button(login_success_screen, text="OK", command=delete_login_success).pack()
+    login_success_screen.title("Student Dashboard")
+    login_success_screen.geometry("300x200")
+    Label(login_success_screen, text="Welcome %s" % (users[username_verify.get()]["F_Name"]), bg="black", fg="white",
+          width="300",
+          height="2", font=("Calibri", 13)).pack()
+    b1 = Button(login_success_screen, text="Edit Details").pack()
+    b2 = Button(login_success_screen, text="Edit Details").pack()
+    # b1.grid(row=1, column=0)
 
+    # Designing Main(first) window
 
-# Designing Main(first) window
 
 def main_account_screen():
+    def on_close():
+        main_screen.quit()
+        pass
+
     global main_screen
     main_screen = Tk()
     main_screen.geometry("300x250")
@@ -588,6 +599,7 @@ def main_account_screen():
     Label(text="").pack()
     Button(text="Admin Login", height="2", width="30", command=admin_login).pack()
     Label(text="").pack()
+    main_screen.protocol("WM_DELETE_WINDOW", on_close)
     main_screen.mainloop()
 
 
