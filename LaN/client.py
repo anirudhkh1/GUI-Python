@@ -1,9 +1,15 @@
 from threading import Thread
 import socket
 from time import sleep
+from tkinter import *
 
 
 def ss():
+    try:
+        conn_label.destroy()
+    except:
+        pass
+    Label(text="Connected.", font=("Arial Bold", 11), fg="black").place(x=145, y=130)
     amm = 0
     while True:
         aaa = s.recv(1024)
@@ -23,13 +29,68 @@ def ss():
                 break
             if amm > 10:
                 break
+    Label(text="%s recived successfully" % (str(b[-1])), font=("Arial Bold", 11), fg="black").place(x=145, y=150)
 
 
-global s
-s = socket.socket()
-host = "192.168.0.107"
-port = 5000
-s.connect((host, port))
-print("Connected ... ")
-t = Thread(target=ss)
-t.start()
+def conn_to_server():
+    global s
+    s = socket.socket()
+    host = str(aa.get())
+    print(host)
+    port = 5000
+    global t_error
+    try:
+        global conn_label
+        try:
+            conn_label.destroy()
+        except:
+            pass
+        conn_label = Label(text="Connecting to server...", font=("Arial Bold", 11))
+        conn_label.place(x=145, y=130)
+        s.connect((host, port))
+
+    except TimeoutError:
+        print("In exception")
+        root.after(1, conn_label.destroy())
+        conn_label = Label(text="Host failed to respond.", font=("Arial", 11), fg="red")
+        conn_label.place(x=145, y=130)
+
+    except socket.gaierror:
+        root.after(1, conn_label.destroy())
+        conn_label = Label(text="Bad Address.", font=("Arial", 11), fg="red")
+        conn_label.place(x=145, y=130)
+
+    except OSError:
+        root.after(1, conn_label.destroy())
+        conn_label = Label(text="Bad Address.", font=("Arial", 11), fg="red")
+        conn_label.place(x=145, y=130)
+
+    except Exception as e:
+        root.after(1, conn_label.destroy())
+        conn_label = Label(text="%s" % (e), font=("Arial", 11), fg="red")
+        conn_label.place(x=145, y=130)
+    else:
+        ss()
+
+
+def t():
+    tt = Thread(target=conn_to_server)
+    tt.start()
+
+
+global root
+global server_ip
+root = Tk()
+root.title("File Transfer")
+root.geometry("400x300")
+Label(text="LAN File Transfer", bg="black", fg="white", width="300", height="2", font=("Calibri", 13)).pack()
+server_ip_label = Label(root, text="Enter server IP: ", font=("Arial Bold", 13)).place(x=16, y=60)
+aa = StringVar()
+b = Entry(root, textvariable=aa, font=("Arial", 13))
+b.place(x=150, y=60)
+con_s = Button(text="Connect to server", width=15, height=1, bg="black", fg="white",
+               command=t)
+con_s.place(x=150, y=90)
+root.bind('<Return>', lambda event=None: con_s.invoke())
+
+root.mainloop()

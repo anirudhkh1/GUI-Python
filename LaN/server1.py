@@ -36,7 +36,7 @@ def send3():
         file_data = file.read(40960000)
         conn.send(file_data)
         conn.close()
-        send_done = Label(root, text="File send Successfully", font=("Arial", 13))
+        send_done = Label(root, text="File send successfully.", font=("Arial", 13))
         send_done.place(x=40, y=255)
     except Exception as e:
         print(e)
