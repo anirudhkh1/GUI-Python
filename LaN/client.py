@@ -1,14 +1,13 @@
+from tkinter.filedialog import asksaveasfile
 from threading import Thread
 import socket
 from time import sleep
 from tkinter import *
 
-def save_file_location():
-
-
 
 def ss():
     global file_data
+    global filename
     global b
     try:
         conn_label.destroy()
@@ -24,19 +23,35 @@ def ss():
             print(b)
             b = aaa.decode().split("/")
             filename = str(b[-1])
-            file = open(filename, 'wb')
+            # file = open(filename, 'wb')
             file_data = s.recv(40960000)
-            file.write(file_data)
-            file.close()
-            print("File has been received successfully.")
+            # file.write(file_data)
+            # file.close()
+            # print("File has been received successfully.")
             amm += 1
             if file_data:
                 break
             if amm > 10:
                 break
     Label(text="%s recived successfully" % (str(b[-1])), font=("Arial Bold", 11), fg="black").place(x=145, y=150)
+    global save_file_button
     save_file_button = Button(text="Save File", width=15, height=1, bg="black", fg="white", command=save_file_location)
     save_file_button.place(x=145, y=180)
+
+
+def save_file_location():
+    files = [("Custom File", '*.' + str(filename.split(".")[-1])),
+             ('All Files', '*.*')]
+    file = asksaveasfile(filetypes=files, defaultextension=files)
+    if file.name == "":
+        Label(root, text="Enter file name.", fg="red", font=("Arial", 12)).place(x=130, y=210)
+    ff = open(str(file.name), 'wb')
+    ff.write(file_data)
+    file.close()
+    save_file_button.destroy()
+    print(file.name)
+    aa = str(file.name).split("/")
+    Label(root, text="File saved as %s" % (aa[-1]), font=("Arial", 12)).place(x=130, y=180)
 
 
 def conn_to_server():
@@ -89,7 +104,7 @@ global root
 global server_ip
 root = Tk()
 root.title("File Transfer")
-root.geometry("400x300")
+root.geometry("350x300")
 Label(text="LAN File Transfer", bg="black", fg="white", width="300", height="2", font=("Calibri", 13)).pack()
 server_ip_label = Label(root, text="Enter server IP: ", font=("Arial Bold", 13)).place(x=16, y=60)
 aa = StringVar()

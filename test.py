@@ -13,9 +13,9 @@ def save():
              ('Python Files', '*.py'),
              ('Text Document', '*.txt')]
     file = asksaveasfile(filetypes=files, defaultextension=files)
+    print(file.name)
 
-
-btn = ttk.Button(root, text='Save', command=lambda: save())
+btn = Button(root, text='Save', command=lambda: save())
 btn.pack(side=TOP, pady=20)
 
-mainloop() 
+mainloop()
