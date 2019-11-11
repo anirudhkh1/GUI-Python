@@ -1,3 +1,4 @@
+import getpass
 from threading import Thread
 import tkinter
 from tkinter import filedialog
@@ -76,16 +77,6 @@ def search_for_file_path():
         file_name.place(x=230, y=140)
 
 
-def ask_for_file():
-    pass
-    # select_file = Label(root, text="Select File: ", font=("Arial Bold", 12))
-    # select_file.place(x=40, y=180)
-    # file_name = StringVar()
-    # sel_but = Button(root, text="Browse", height=1, width=8, fg="white", font=("Arial", 10), bg="black",
-    #                  command=search_for_file_path)
-    # sel_but.place(x=130, y=180)
-
-
 def hostip():
     global conn
     global s
@@ -104,16 +95,16 @@ global root
 global start_button
 root = tkinter.Tk()
 root.title("File transter")
-root.geometry("350x300")
+root.geometry("450x400")
 Label(text="LAN File Transfer", bg="black", fg="white", width="300", height="2", font=("Calibri", 13)).pack()
-Label(root, text="Hostname:", font=("Arial Bold", 13)).place(x=16, y=60)
+Label(root, text="Username:", font=("Arial Bold", 13)).place(x=16, y=60)
 aa = StringVar()
-b = Entry(root, textvariable=aa, font=("Arial", 13), state="disabled")
-aa.set(host)
+b = Entry(root, textvariable=aa, font=("Arial", 13), state="disabled", width="25")
+aa.set(str(getpass.getuser()))
 b.place(x=120, y=60)
 Label(root, text="IP Address:", font=("Arial Bold", 13)).place(x=10, y=100)
 aaa = StringVar()
-bb = Entry(root, textvariable=aaa, font=("Arial", 13), state="disabled")
+bb = Entry(root, textvariable=aaa, font=("Arial", 13), state="disabled", width="25")
 aaa.set(socket.gethostbyname(host))
 bb.place(x=120, y=100)
 start_button = Button(root, text="Select File", width=12, height=1, bg="black", fg="white",

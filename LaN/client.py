@@ -104,11 +104,11 @@ global root
 global server_ip
 root = Tk()
 root.title("File Transfer")
-root.geometry("350x300")
+root.geometry("450x400")
 Label(text="LAN File Transfer", bg="black", fg="white", width="300", height="2", font=("Calibri", 13)).pack()
 server_ip_label = Label(root, text="Enter server IP: ", font=("Arial Bold", 13)).place(x=16, y=60)
 aa = StringVar()
-b = Entry(root, textvariable=aa, font=("Arial", 13))
+b = Entry(root, textvariable=aa, font=("Arial", 13),width="25")
 b.place(x=150, y=60)
 con_s = Button(text="Connect to server", width=15, height=1, bg="black", fg="white",
                command=t)
