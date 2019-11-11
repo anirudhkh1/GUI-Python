@@ -3,8 +3,13 @@ import socket
 from time import sleep
 from tkinter import *
 
+def save_file_location():
+
+
 
 def ss():
+    global file_data
+    global b
     try:
         conn_label.destroy()
     except:
@@ -30,6 +35,8 @@ def ss():
             if amm > 10:
                 break
     Label(text="%s recived successfully" % (str(b[-1])), font=("Arial Bold", 11), fg="black").place(x=145, y=150)
+    save_file_button = Button(text="Save File", width=15, height=1, bg="black", fg="white", command=save_file_location)
+    save_file_button.place(x=145, y=180)
 
 
 def conn_to_server():

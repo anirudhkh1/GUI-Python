@@ -1,11 +1,21 @@
-# socket.gaierror
-#
-# OSError: [WinError 10049] The requested address is not valid in its context
+from tkinter.filedialog import asksaveasfile
+from tkinter import *
 
-import socket
+root = Tk()
+root.geometry('200x150')
 
-s = socket.socket()
-host = "192.168.0.155"
-port = 5000
-s.connect((host, port))
-# s.settimeout(3)
+
+# function to call when user press
+# the save button, a filedialog will 
+# open and ask to save file 
+def save():
+    files = [('All Files', '*.*'),
+             ('Python Files', '*.py'),
+             ('Text Document', '*.txt')]
+    file = asksaveasfile(filetypes=files, defaultextension=files)
+
+
+btn = ttk.Button(root, text='Save', command=lambda: save())
+btn.pack(side=TOP, pady=20)
+
+mainloop() 
