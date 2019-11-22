@@ -1,3 +1,4 @@
+from tkinter import messagebox
 import math
 import pickle
 from tkinter import *
@@ -412,8 +413,9 @@ def admin_login_verify():
 
 
 def admin_login_sucess():
+    admin_login_screen.destroy()
     global admin_dashboard
-    admin_dashboard = Toplevel(admin_login_screen)
+    admin_dashboard = Toplevel(main_screen)
     admin_dashboard.title("Dashboard")
     admin_dashboard.geometry("150x150")
 
@@ -724,9 +726,14 @@ def done_editing():
 
 
 def check_status():
-    status_window = Toplevel(login_success_screen)
-    status_window.title("Status")
-    status_window.geometry("200x200")
+    usern = username_verify.get()
+    if users[usern]["Status"] == "pending":
+        messagebox.showinfo("Status", "You Application is still pending.")
+    elif users[usern]["Status"] == "yes":
+        messagebox.showinfo("Status", "Congratulations!! You Application is Accepted.")
+    elif users[usern]["Status"] == "no":
+        messagebox.showinfo("Status", "You Application is declined. Try again next year.")
+    login_success_screen.lift(aboveThis=main_screen)
 
 
 def main_account_screen():
