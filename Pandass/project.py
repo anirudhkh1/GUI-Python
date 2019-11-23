@@ -1,9 +1,13 @@
+from colorama import Fore, Back, Style
+import colorama
 import os
 import sys
 import pandas as pd
 import pickle
 
 global f_name
+
+colorama.init()
 
 
 def display():
@@ -51,7 +55,7 @@ def delete_record():
         f.close()
         print("Successfully Deleted.")
     except Exception as e:
-        print(e)
+        print(Fore.RED + str(e) + Style.RESET_ALL)
 
 
 def open_file():
@@ -59,18 +63,20 @@ def open_file():
         cc = input("Enter File Name (without extension) = ")
         os.startfile(str(cc) + ".xlsx")
     except Exception as FileNotFoundError:
-        print("File not found.")
+        RED = '\033[31m'
+        RESET = '\033[0m'
+        print(RED + "File not found." + RESET)
     except Exception as e:
         print(e)
 
 
 def prnt_data():
-    print(data)
+    print(Fore.GREEN + str(data) + Style.RESET_ALL)
 
 
 def export_data():
     try:
-        f_name = input("Enter File Name = ")
+        f_name = input("Enter File Name (without extension)= ")
         try:
             fff = open("F_Name", "wb")
             pickle.dump(f_name, fff)
@@ -90,16 +96,20 @@ def export_data():
 
 
 def options():
+    CLEAR_SCREEN = '\033[2J'
+    print(CLEAR_SCREEN)
     while 1:
-        print("\n--------------------------------------\n")
+        print("\n--------------------------------------\n" + Fore.CYAN)
         print("1. Display the current Data in tabular form.")
         print("2. Add a student record.")
         print("3. Delete a student record.")
         print("4. Export data to Excel File.")
         print("5. Print data in Dictionary Format.")
         print("6. Open the excel file (if created).")
-        print("Press 9 to exit.")
+        print(Fore.RED)
+        print("Press 9 to exit." + Style.RESET_ALL)
         ch = input("\nEnter your choice = ")
+        print()
         if ch == "1":
             display()
         elif ch == "3":
