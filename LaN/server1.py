@@ -87,7 +87,7 @@ def hostip():
     s = socket.socket()
     host = socket.gethostname()
     hostt = socket.gethostbyname(host)
-    port = 5000
+    port = 6000
 
 
 hostip()

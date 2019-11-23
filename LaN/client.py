@@ -59,7 +59,7 @@ def conn_to_server():
     s = socket.socket()
     host = str(aa.get())
     print(host)
-    port = 5000
+    port = 6000
     global t_error
     try:
         global conn_label

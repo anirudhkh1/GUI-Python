@@ -5,7 +5,6 @@ from tkinter import *
 from tkcalendar import Calendar, DateEntry
 import os
 
-# Designing window for registration
 users = {}
 try:
     file = open("database", "rb")
