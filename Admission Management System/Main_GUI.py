@@ -727,11 +727,11 @@ def done_editing():
 def check_status():
     usern = username_verify.get()
     if users[usern]["Status"] == "pending":
-        messagebox.showinfo("Status", "You Application is still pending.")
+        messagebox.showinfo("Status", "Your Application is still pending.")
     elif users[usern]["Status"] == "yes":
-        messagebox.showinfo("Status", "Congratulations!! You Application is Accepted.")
+        messagebox.showinfo("Status", "Congratulations!! Your Application is Accepted.")
     elif users[usern]["Status"] == "no":
-        messagebox.showinfo("Status", "You Application is declined. Try again next year.")
+        messagebox.showinfo("Status", "Your Application is declined. Try again next year.")
     login_success_screen.lift(aboveThis=main_screen)
 
 
